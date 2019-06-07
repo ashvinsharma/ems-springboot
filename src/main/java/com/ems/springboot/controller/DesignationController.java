@@ -2,6 +2,7 @@ package com.ems.springboot.controller;
 
 import com.ems.springboot.model.Designation;
 import com.ems.springboot.service.DesignationService;
+import com.ems.springboot.utils.JSONUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -27,12 +28,8 @@ public class DesignationController {
     @RequestMapping(value = "/read/all", method = RequestMethod.GET)
     public ResponseEntity readAllDesignations() {
         designationService = (DesignationService) context.getBean("designationService");
-        ObjectMapper mapper = new ObjectMapper();
         List<Designation> list = designationService.findAllDesignations();
-        ArrayNode arrayNode = mapper.valueToTree(list);
-        ObjectNode objectNode = mapper.createObjectNode();
-        objectNode.putArray("content").addAll(arrayNode);
-
+        ObjectNode objectNode = new JSONUtils().addArrayNode("content", list);
         return ResponseEntity.status(HttpStatus.OK).body(objectNode);
     }
 }

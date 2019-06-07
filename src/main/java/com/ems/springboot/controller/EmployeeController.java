@@ -2,8 +2,8 @@ package com.ems.springboot.controller;
 
 import com.ems.springboot.model.Employee;
 import com.ems.springboot.service.EmployeeService;
+import com.ems.springboot.utils.JSONUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -25,18 +25,20 @@ public class EmployeeController {
     private ApplicationContext context;
     private EmployeeService employeeService;
 
-//    @RequestMapping(value = "/create", method = RequestMethod.POST)
-//    public ResponseEntity createRecord(@ModelAttribute("employee") @Valid Employee em, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            bindingResult.getAllErrors().forEach(System.out::println);
-//            return ResponseEntity.status(HttpStatus.OK).body(objectNode);
-//        }
-//
-//        employeeService = (EmployeeService) context.getBean("employeeService");
-//        employeeService.saveEmployee(em);
-//        return ResponseEntity.status(HttpStatus.OK).body(objectNode);
-//    }
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResponseEntity createRecord(@Valid @ModelAttribute Employee em, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            ObjectNode objectNode = new JSONUtils().addArrayNode("content", bindingResult.getAllErrors());
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(objectNode);
+        }
 
+        employeeService = (EmployeeService) context.getBean("employeeService");
+        employeeService.saveEmployee(em);
+        return ResponseEntity.status(HttpStatus.OK).body(new ObjectMapper()
+                .createObjectNode()
+                .put("content", "Success!")
+        );
+    }
     /**
      * Returns one employee object based on email provided from the database
      *
@@ -47,11 +49,7 @@ public class EmployeeController {
     public ResponseEntity readAllEmployeeRecord() {
         employeeService = (EmployeeService) context.getBean("employeeService");
         List<Employee> list = employeeService.findAllEmployees();
-        ObjectMapper mapper = new ObjectMapper();
-        ArrayNode arrayNode = mapper.valueToTree(list);
-        ObjectNode objectNode = mapper.createObjectNode();
-        objectNode.putArray("content").addAll(arrayNode);
-
+        ObjectNode objectNode = new JSONUtils().addArrayNode("content", list);
         return ResponseEntity.status(HttpStatus.OK).body(objectNode);
     }
 
@@ -81,10 +79,10 @@ public class EmployeeController {
 
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity updateRecord(@ModelAttribute @Valid Employee em, BindingResult bindingResult) {
+    public ResponseEntity updateRecord(@Valid @ModelAttribute Employee em, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(System.out::println);
-//            return ResponseEntity.status(HttpStatus.OK).body(objectNode);
+            ObjectNode objectNode = new JSONUtils().addArrayNode("content", bindingResult.getAllErrors());
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(objectNode);
         }
         employeeService = (EmployeeService) context.getBean("employeeService");
         employeeService.updateEmployee(em);

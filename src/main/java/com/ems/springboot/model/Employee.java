@@ -2,6 +2,9 @@ package com.ems.springboot.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.LinkedHashMap;
 
 @Entity
@@ -12,16 +15,20 @@ public class Employee {
     private Integer id;
 
     @Column(name = "email", nullable = false, unique = true)
+    @Email(message = "Email is not valid")
     private String email;
 
     @Column(name = "name", nullable = false)
+    @Pattern(regexp = "^[a-zA-Z\\s]+", message = "Name should not contain any symbol or number")
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "designation_id", referencedColumnName = "id")
+    @NotNull
     private Designation designationId;
 
     @Column(name = "contact", nullable = false, unique = true, length = 10)
+    @Pattern(regexp = "\\d{10}", message = "Contact should be 10 digit numeric character only")
     private String contact;
 
     public Employee() {
