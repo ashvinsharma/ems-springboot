@@ -1,4 +1,4 @@
-package com.ems.springboot.controller;
+package com.ems.springboot.api;
 
 import com.ems.springboot.model.Employee;
 import com.ems.springboot.service.EmployeeService;
@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/employee/*")
-public class EmployeeController {
+public class EmployeeRestController {
 
     @Autowired
     private ApplicationContext context;
@@ -36,9 +36,10 @@ public class EmployeeController {
         employeeService.saveEmployee(em);
         return ResponseEntity.status(HttpStatus.OK).body(new ObjectMapper()
                 .createObjectNode()
-                .put("content", "Success!")
+                .put("content", "success")
         );
     }
+
     /**
      * Returns one employee object based on email provided from the database
      *
@@ -89,7 +90,7 @@ public class EmployeeController {
 
         return ResponseEntity.status(HttpStatus.OK).body(new ObjectMapper()
                 .createObjectNode()
-                .put("content", "Success!")
+                .put("content", "success")
         );
     }
 

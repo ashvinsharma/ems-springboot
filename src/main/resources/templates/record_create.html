@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript"
+            src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/record_create.js"></script>
+</head>
+<body>
+<form id="create-record">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><label>
+                <input type="text" id="name"/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td><label>
+                <input type="email" id="email"/>
+            </label></td>
+        </tr>
+        <tr>
+            <td>Designation:</td>
+            <td><label>
+                <select id="designation"></select>
+            </label></td>
+        </tr>
+        <tr>
+            <td>Contact:</td>
+            <td><label>
+                <input type="tel" id="contact"/>
+            </label></td>
+        </tr>
+    </table>
+    <button id="submit" type="submit">Create</button>
+</form>
+</body>
+</html>

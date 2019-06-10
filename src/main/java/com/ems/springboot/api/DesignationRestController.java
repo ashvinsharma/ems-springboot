@@ -1,10 +1,8 @@
-package com.ems.springboot.controller;
+package com.ems.springboot.api;
 
 import com.ems.springboot.model.Designation;
 import com.ems.springboot.service.DesignationService;
 import com.ems.springboot.utils.JSONUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -18,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/designation/*")
-public class DesignationController {
+public class DesignationRestController {
 
     @Autowired
     private ApplicationContext context;
