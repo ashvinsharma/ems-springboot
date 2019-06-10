@@ -11,12 +11,16 @@ public class IndexController {
         return "index.html";
     }
 
+    @RequestMapping("/record")
+    public String getRecordManipulationPage() {
+        return "record_manipulate.html";
+    }
+
     @RequestMapping("/record/create")
     public String getCreatePage() {
         return "record_create.html";
     }
 
-//
 //    @RequestMapping
 //    public ResponseEntity notFound() {
 //        return ResponseEntity.status(404).body(new ObjectMapper()
