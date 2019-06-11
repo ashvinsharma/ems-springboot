@@ -17,10 +17,18 @@ $(document).ready(async () => {
     });
 
     $(document).on('click', '.update_button', function () {
+        const formObject = {};
+        const designationObject = {};
         const id = $(this).parent().closest('tr').attr('id');
-        const email = $(`#email_${id}`).trim();
-        const name = $(`#name_${id}`).trim();
-        const contact = $(`#contact_${id}`).trim();
+        formObject['id'] = id;
+        formObject['name'] = $(`#name_${id} div`).text().trim();
+        formObject['email'] = $(`#email_${id} div`).text().trim();
+        designationObject['id'] = $(`#designation_${id}`).val();
+        designationObject['name'] = $(`#designation_${id} option:selected`).html();
+        formObject['designationId'] = JSON.stringify(designationObject);
+        formObject['contact'] = $(`#contact_${id} div`).text().trim();
+
+        click_update_button(formObject);
     });
 
     $(document).on('click', '.delete_button', function () {
@@ -29,8 +37,21 @@ $(document).ready(async () => {
     });
 });
 
+const click_update_button = formObject => {
+    $.ajax({
+        type: 'POST',
+        url: '/employee/update',
+        data: formObject,
+        success: response => {
+            if (response.content === 'success') {
+                window.location.reload();
+            }
+        }
+    });
+};
+
 const click_delete_button = id => {
-    $.get(`/employee/delete/${id}`, ({ content }) => {
+    $.get(`/employee/delete/${id}`, ({content}) => {
         if (content === 'success') {
             window.location.reload();
         }
