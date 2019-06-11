@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,8 +75,10 @@ public class EmployeeRestController {
                     .put("content", e.getLocalizedMessage())
             );
         }
-
-        return ResponseEntity.status(HttpStatus.OK).body(Objects.requireNonNull(employee));
+        List<Employee> list = new ArrayList<>();
+        list.add(employee);
+        ObjectNode objectNode = new JSONUtils().addArrayNode("content", list);
+        return ResponseEntity.status(HttpStatus.OK).body(objectNode);
     }
 
 

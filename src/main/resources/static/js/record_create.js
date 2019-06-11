@@ -1,20 +1,20 @@
-$(document).ready(function () {
-    $.get("/designation/read/all", function (data) {
+$(document).ready(() => {
+    $.get('/designation/read/all', data => {
         $.each(data.content, function () {
             $('#designation').append($('<option />').val(this.id).text(this.name));
         });
     });
 
-    $("#create-record").submit(function (event) {
+    $('#create-record').submit(event => {
         event.preventDefault();
         submit_entry();
     });
 
 });
 
-function submit_entry() {
-    var formObject = {};
-    var designationObject = {};
+const submit_entry = () => {
+    const formObject = {};
+    const designationObject = {};
     formObject['name'] = $('#name').val().trim();
     formObject['email'] = $('#email').val().trim();
     designationObject['id'] = $('#designation').val();
@@ -26,10 +26,10 @@ function submit_entry() {
         type: 'POST',
         url: '/employee/create',
         data: formObject,
-        success: function (response) {
+        success: response => {
             if (response.content === 'success') {
                 window.location.replace('/');
             }
         }
     });
-}
+};
