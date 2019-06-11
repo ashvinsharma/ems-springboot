@@ -111,7 +111,7 @@ public class EmployeeRestController {
 
         return ResponseEntity.status(HttpStatus.OK).body(new ObjectMapper()
                 .createObjectNode()
-                .put("content", "Record deleted")
+                .put("content", "success")
         );
     }
 }

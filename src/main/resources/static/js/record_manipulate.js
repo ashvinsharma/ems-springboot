@@ -6,10 +6,10 @@ $(document).ready(async () => {
     });
 
     const params = new URL(window.location.href).searchParams;
-    $.get(params.has('email') ? `/employee/read/${params.get('email')}` : '/employee/read/all',
-        data => {
-            populate_table(data.content);
-        });
+    const url = params.has('email') ? `/employee/read/${params.get('email')}` : '/employee/read/all';
+    $.get(url, data => {
+        populate_table(data.content);
+    });
 
     $('#search-record').submit(event => {
         event.preventDefault();
@@ -22,7 +22,21 @@ $(document).ready(async () => {
         const name = $(`#name_${id}`).trim();
         const contact = $(`#contact_${id}`).trim();
     });
+
+    $(document).on('click', '.delete_button', function () {
+        const id = $(this).parent().closest('tr').attr('id');
+        click_delete_button(id);
+    });
 });
+
+const click_delete_button = id => {
+    $.get(`/employee/delete/${id}`, ({ content }) => {
+        if (content === 'success') {
+            window.location.reload();
+        }
+    });
+};
+
 
 const populate_table = employee => {
     $.each(employee, function () {
