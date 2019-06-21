@@ -6,6 +6,7 @@
 <output.dir>${env.HOME}/Documents</output.dir>
 ```
 In this example, we are storing the jar in `~/Documents`
+
 2. In `plugins` field add this
 ```xml
 <plugin>
